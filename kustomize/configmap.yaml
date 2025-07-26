@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: irc-bot-config
+data:
+  bots.json: |
+    [
+      {
+        "server": "irc.libera.chat",
+        "nick": "rssbot1",
+        "channels": [
+          {
+            "name": "#news",
+            "feeds": [
+              "https://example.com/feed1.xml",
+              "https://example.com/feed2.xml"
+            ]
+          },
+          {
+            "name": "#dev",
+            "feeds": [
+              "https://dev.example.com/rss"
+            ]
+          }
+        ]
+      },
+      {
+        "server": "irc.oftc.net",
+        "nick": "rssbot2",
+        "channels": [
+          {
+            "name": "#updates",
+            "feeds": [
+              "https://oftc.net/feed.xml"
+            ]
+          }
+        ]
+      }
+    ]
