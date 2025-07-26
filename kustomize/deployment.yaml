@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: irc-rss-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: irc-rss-bot
+  template:
+    metadata:
+      labels:
+        app: irc-rss-bot
+    spec:
+      containers:
+        - name: bot
+          image: irc-rss-bot:latest
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_HOST
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_DATABASE
+          volumeMounts:
+            - name: bot-config
+              mountPath: /app/config
+              readOnly: true
+      volumes:
+        - name: bot-config
+          configMap:
+            name: irc-bot-config
